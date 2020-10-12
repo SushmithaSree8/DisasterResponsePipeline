@@ -21,7 +21,7 @@ def clean_data(df):
 	OUTPUT: CLeaned Dataframe
 
 	The function cleans the category column of dataframe so each category is in separate column
-	and drops the duplicate data
+	with 0 or 1 value and drops the duplicate data
 	"""
 	
     #creating a dataframe categories with each category as a column
@@ -36,6 +36,8 @@ def clean_data(df):
     for column in categories:
     	categories[column] = categories[column].apply(lambda x: x.split('-')[1] )
     	categories[column] = pd.to_numeric(categories[column])
+    	
+    categories[categories > 1] = 1
 
     #replacing category column in df with the separated columns in categories
     df.drop(columns=['categories'], inplace=True)
@@ -50,6 +52,8 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+	engine = create_engine('sqlite:///cleaned_dataset.db')
+	df.to_sql(database_filename, engine, index=False)
       
 
 
