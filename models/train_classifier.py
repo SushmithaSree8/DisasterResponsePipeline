@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import re
+import nltk
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
