@@ -3,10 +3,10 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-	"""
-	INPUT: Datasets (csv) to be read
-	OUTPUT: Merged dataframe of the two input datasets
-	"""
+    """
+    INPUT: Datasets (csv) to be read
+    OUTPUT: Merged dataframe of the two input datasets
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, on='id')
@@ -16,14 +16,14 @@ def load_data(messages_filepath, categories_filepath):
 
 def clean_data(df):
 
-	"""
-	INPUT: Dataframe to be cleaned
-	OUTPUT: CLeaned Dataframe
+    """
+    INPUT: Dataframe to be cleaned
+    OUTPUT: CLeaned Dataframe
 
-	The function cleans the category column of dataframe so each category is in separate column
-	with 0 or 1 value and drops the duplicate data
-	"""
-	
+    The function cleans the category column of dataframe so each category is in separate column
+    with 0 or 1 value and drops the duplicate data
+    """
+    
     #creating a dataframe categories with each category as a column
     categories = df.categories.str.split(pat=';', expand=True)
 
@@ -52,7 +52,14 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
-	engine = create_engine('sqlite:///cleaned_dataset.db')
+	"""
+	INPUT: Dataframe, Filename string
+	OUTPUT: None
+
+	The function saves the given dataframe as a database table with 
+	filename given
+	"""
+	engine = create_engine('sqlite:///{}'.format(database_filename))
 	df.to_sql(database_filename, engine, index=False)
       
 
